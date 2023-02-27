@@ -14,6 +14,14 @@ const resourceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    tags: {
+        type: [String],
+        default: ['']
+    },
+    tutorials: {
+        type: [String],
+        default: ['']
+    }
 })
 
 module.exports = mongoose.model('Resource', resourceSchema)

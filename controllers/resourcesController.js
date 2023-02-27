@@ -19,10 +19,11 @@ const getAllResources = asyncHandler(async (req, res) => {
 // @route Post /resources
 // @access Private
 const createNewResource = asyncHandler(async (req, res) => {
-    const { name, desc, link } = req.body
+    
+    const { name, desc, link, tags, tutorials } = req.body
 
     //Check data
-    if (!name || !desc || !link) {
+    if (!name || !desc || !link || !tags) {
         return res.status(400).json({ message: 'All fields required' })
     }
 
@@ -34,8 +35,8 @@ const createNewResource = asyncHandler(async (req, res) => {
     }
 
     //Create & store the new resource
-    const resourceObject = { name, desc, link }
-
+    const resourceObject = { name, desc, link, tags }
+    
     const resource = await Resource.create(resourceObject)
 
     if (resource) {
@@ -49,10 +50,12 @@ const createNewResource = asyncHandler(async (req, res) => {
 // @route PATCH /resources
 // @access Private
 const updateResource = asyncHandler(async (req, res) => {
-    const { id, name, desc, link } = req.body
+    const { id, name, desc, link, tags } = req.body
+
+    console.log(tags)
 
     //Comfirm data
-    if (!id || !name || !desc || !link ) {
+    if (!id || !name || !desc || !link || !Array.isArray(tags) || !tags.length) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -73,7 +76,8 @@ const updateResource = asyncHandler(async (req, res) => {
 
     resource.name = name
     resource.desc = desc
-    resource.link = link    
+    resource.link = link  
+    resource.tags = tags  
 
     const updatedResource = await resource.save()
 
