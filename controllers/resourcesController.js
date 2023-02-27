@@ -22,6 +22,8 @@ const createNewResource = asyncHandler(async (req, res) => {
     
     const { name, desc, link, tags, tutorials } = req.body
 
+    console.log(tutorials)
+
     //Check data
     if (!name || !desc || !link || !tags) {
         return res.status(400).json({ message: 'All fields required' })
@@ -35,7 +37,7 @@ const createNewResource = asyncHandler(async (req, res) => {
     }
 
     //Create & store the new resource
-    const resourceObject = { name, desc, link, tags }
+    const resourceObject = { name, desc, link, tags, tutorials }
     
     const resource = await Resource.create(resourceObject)
 
@@ -52,7 +54,6 @@ const createNewResource = asyncHandler(async (req, res) => {
 const updateResource = asyncHandler(async (req, res) => {
     const { id, name, desc, link, tags } = req.body
 
-    console.log(tags)
 
     //Comfirm data
     if (!id || !name || !desc || !link || !Array.isArray(tags) || !tags.length) {

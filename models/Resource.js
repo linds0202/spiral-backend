@@ -20,7 +20,7 @@ const resourceSchema = new mongoose.Schema({
     },
     tutorials: {
         type: [String],
-        default: ['']
+        default: []
     }
 })
 

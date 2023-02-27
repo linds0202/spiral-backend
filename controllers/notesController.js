@@ -90,6 +90,7 @@ const updateNote = asyncHandler(async (req, res) => {
     res.json(`'${updatedNote.title}' updated`)
 })
 
+
 // @desc Delete a note
 // @route DELETE /notes
 // @access Private
