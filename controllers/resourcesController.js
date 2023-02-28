@@ -11,8 +11,8 @@ const getAllResources = asyncHandler(async (req, res) => {
     if (!resources?.length) {
         return res.status(400).json({ message: 'No resources found' })
     }
-
-    res.json(resources)
+    return resources
+    // res.json(resources)
 })
 
 // @desc Create new resource
