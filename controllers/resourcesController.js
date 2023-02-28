@@ -52,7 +52,7 @@ const createNewResource = asyncHandler(async (req, res) => {
 // @route PATCH /resources
 // @access Private
 const updateResource = asyncHandler(async (req, res) => {
-    const { id, name, desc, link, tags } = req.body
+    const { id, name, desc, link, tags, tutorials } = req.body
 
 
     //Comfirm data
@@ -78,7 +78,8 @@ const updateResource = asyncHandler(async (req, res) => {
     resource.name = name
     resource.desc = desc
     resource.link = link  
-    resource.tags = tags  
+    resource.tags = tags 
+    resource.tutorials = tutorials 
 
     const updatedResource = await resource.save()
 
