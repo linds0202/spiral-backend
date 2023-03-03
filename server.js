@@ -44,15 +44,15 @@ app.use('/register', require('./routes/register'))
 app.use('/auth', require('./routes/auth'))
 app.use('/refresh', require('./routes/refresh'))
 app.use('/logout', require('./routes/logout'))
-app.use('/resources', require('./routes/resourcesRoutes'))
+app.use('/resources', require('./routes/api/resources'))
 
 app.use(verifyJWT);
 // app.use('/employees', require('./routes/api/employees'))
 app.use('/users', require('./routes/api/users'))
 
-//to get notes and resources
-app.use('/notes', require('./routes/notesRoutes'))
-// app.use('/resources', require('./routes/resourcesRoutes'))
+//to get notes and goals
+app.use('/notes', require('./routes/api/notes'))
+app.use('/goals', require('./routes/api/goals'))
 
 app.all('*', (req, res) => {
     res.status(404)

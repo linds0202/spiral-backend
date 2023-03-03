@@ -1,117 +1,86 @@
-const User = require('../models/User')
 const Resource = require('../models/Resource')
-const asyncHandler = require('express-async-handler')
 
-// @desc Get all resources
-// @route GET /resources
-// @access Private
-const getAllResources = asyncHandler(async (req, res) => {
-    const resources = await Resource.find().lean()
-
-    if (!resources?.length) {
-        return res.status(400).json({ message: 'No resources found' })
-    }
+const getAllResources = async (req, res) => {
+    const resources = await Resource.find()
+    if (!resources) return res.status(204).json({ 'message': 'No resources found.' })
     res.json(resources)
-})
+}
 
-// @desc Create new resource
-// @route Post /resources
-// @access Private
-const createNewResource = asyncHandler(async (req, res) => {
+const createNewResource = async (req, res) => {
+
+    const { name, desc, longDesc, link, tags, tutorials } = req.body
+
+    if (!name || !desc || !longDesc || !link || !tags) {
+        return res.status(400).json({ 'message': 'All fields required' })
+    }
+
+    try {
+        const result = await Resource.create({
+            name: name,
+            desc: desc,
+            longDesc: longDesc,
+            link: link,
+            tags: tags,
+            tutorials: tutorials
+        })
+
+        res.status(201).json(result)
+
+    } catch(err) {
+        console.error(err)
+    }
+}
+
+const updateResource = async (req, res) => {
+    if (!req?.body?.id) return res.status(400).json({ 'message': 'An id parameter is required' })
     
-    const { name, desc, link, tags, tutorials } = req.body
-
-    console.log(tutorials)
-
-    //Check data
-    if (!name || !desc || !link || !tags) {
-        return res.status(400).json({ message: 'All fields required' })
-    }
-
-    //Check for duplicate
-    const duplicate = await Resource.findOne({ name }).collation({ locale: 'en', strength: 2 }).lean().exec()
-
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate resource title' })
-    }
-
-    //Create & store the new resource
-    const resourceObject = { name, desc, link, tags, tutorials }
-    
-    const resource = await Resource.create(resourceObject)
-
-    if (resource) {
-        return res.status(201).json({ message: `New resource ${name} created` })
-    } else {
-        return res.status(400).json({ message: 'Invalid resource data received' })
-    }
-})
-
-// @desc Update resource
-// @route PATCH /resources
-// @access Private
-const updateResource = asyncHandler(async (req, res) => {
-    const { id, name, desc, link, tags, tutorials } = req.body
-
-
-    //Comfirm data
-    if (!id || !name || !desc || !link || !Array.isArray(tags) || !tags.length) {
-        return res.status(400).json({ message: 'All fields are required' })
-    }
-
-    //Confirm resource exists to update
-    const resource = await Resource.findById(id).exec()
+    const resource = await Resource.findOne({ _id: req.body.id }).exec()
 
     if (!resource) {
-        return res.status(400).json({ message: 'Resource not found' })
+        return res.status(204).json({ "message": `No resource matches ID: ${req.body.id}` });
     }
 
-    //Check for duplicate
-    const duplicate = await Resource.findOne({ name }).collation({ locale: 'en', strength: 2 }).lean().exec()
+    if (req.body?.name) resource.name = req.body.name;
+    if (req.body?.desc) resource.desc = req.body.desc;
+    if (req.body?.longDesc) resource.longDesc = req.body.longDesc;
+    if (req.body?.link) resource.link = req.body.link;
+    if (req.body?.tags) resource.tags = req.body.tags;
+    if (req.body?.tutorials) resource.tutorials = req.body.tutorials;
+    
+    const result = await resource.save()
+    
+    res.json(result)
+}
 
-    // Allow renaming of the original resource 
-    if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(409).json({ message: 'Duplicate resource name' })
-    }
+const deleteResource = async (req, res) => {
+    if (!req?.body?.id) return res.status(400).json({ 'message': 'An id parameter is required' })
 
-    resource.name = name
-    resource.desc = desc
-    resource.longDesc = longDesc
-    resource.link = link  
-    resource.tags = tags 
-    resource.tutorials = tutorials 
-
-    const updatedResource = await resource.save()
-
-    res.json({ message: `${updatedResource.name} updated` })
-})
-
-// @desc Delete resource
-// @route DELETE /resources
-// @access Private
-const deleteResource = asyncHandler(async (req, res) => {
-    const { id } = req.body
-
-    if (!id) {
-        return res.status(400).json({ message: 'Resource ID required' })
-    }
-
-    const resource = await Resource.findById(id).exec()
+    const resource = await Resource.findOne({ _id: req.body.id }).exec()
 
     if (!resource) {
-        return res.status(400).json({ message: 'Resource not found' })
+        return res.status(204).json({ "message": `No resource matches ID: ${req.body.id}` })
     }
 
-    const result = await resource.deleteOne()
+    const result = await Resource.deleteOne({ _id: req.body.id })
+    res.json(result)
+}
 
-    const reply = `Note ${result.name} with Id ${result._id} deleted`
+const getResource = async (req, res) => {
+    if (!req?.params?.id) return res.status(400).json({ 'message': 'An id parameter is required' })
+    
+    const resource = await Resource.findOne({ _id: req.params.id }).exec()
 
-    res.json(reply)
-})
+    if (!resource) {
+        return res.status(204).json({ "message": `No resource matches ID: ${req.params.id}` })
+    }
 
-module.exports = {
-    getAllResources,
-    createNewResource,
-    updateResource,
-    deleteResource
+    res.json(resource)
+}
+
+module.exports = { 
+    getAllResources, 
+    createNewResource, 
+    updateResource, 
+    deleteResource, 
+    getResource
 }

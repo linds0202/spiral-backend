@@ -19,6 +19,10 @@ const userSchema = new Schema({
             default: 5150
         }
     },
+    favResources: {
+        type: [String],
+        default: []
+    },
     password: {
         type: String,
         required: true
