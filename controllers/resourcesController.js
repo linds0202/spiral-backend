@@ -76,6 +76,7 @@ const updateResource = asyncHandler(async (req, res) => {
 
     resource.name = name
     resource.desc = desc
+    resource.longDesc = longDesc
     resource.link = link  
     resource.tags = tags 
     resource.tutorials = tutorials 
