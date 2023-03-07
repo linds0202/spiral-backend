@@ -7,26 +7,30 @@ const getAllResources = async (req, res) => {
 }
 
 const createNewResource = async (req, res) => {
+    console.log('I am here')
+    const { name, desc, longDesc, link } = req.body
 
-    const { name, desc, longDesc, link, tags, tutorials } = req.body
+    console.log(name)
+    console.log(desc)
+    console.log(longDesc)
+    console.log(link)
 
-    if (!name || !desc || !longDesc || !link || !tags) {
+    if (!name || !desc || !longDesc || !link ) {
         return res.status(400).json({ 'message': 'All fields required' })
     }
-
+    console.log('made it here')
     try {
         const result = await Resource.create({
             name: name,
             desc: desc,
             longDesc: longDesc,
             link: link,
-            tags: tags,
-            tutorials: tutorials
         })
 
         res.status(201).json(result)
 
     } catch(err) {
+        console.log('errored out here')
         console.error(err)
     }
 }
