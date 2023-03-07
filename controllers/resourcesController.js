@@ -1,13 +1,13 @@
 const Resource = require('../models/Resource')
 
 const getAllResources = async (req, res) => {
+    console.log('getting the resources')
     const resources = await Resource.find()
     if (!resources) return res.status(204).json({ 'message': 'No resources found.' })
     res.json(resources)
 }
 
 const createNewResource = async (req, res) => {
-    console.log('I am here')
     const { name, desc, longDesc, link } = req.body
 
     console.log(name)
@@ -18,7 +18,7 @@ const createNewResource = async (req, res) => {
     if (!name || !desc || !longDesc || !link ) {
         return res.status(400).json({ 'message': 'All fields required' })
     }
-    console.log('made it here')
+
     try {
         const result = await Resource.create({
             name: name,
@@ -26,7 +26,7 @@ const createNewResource = async (req, res) => {
             longDesc: longDesc,
             link: link,
         })
-
+        console.log('created resource')
         res.status(201).json(result)
 
     } catch(err) {
