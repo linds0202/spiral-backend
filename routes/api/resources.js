@@ -6,12 +6,9 @@ const verifyRoles = require('../../middleware/verifyRoles')
 
 router.route('/')
     .get(verifyRoles(ROLES_LIST.Admin), resourcesController.getAllResources)
-    //.get(resourcesController.getAllResources)
     .post(verifyRoles(ROLES_LIST.Admin), resourcesController.createNewResource)
     .put(verifyRoles(ROLES_LIST.Admin), resourcesController.updateResource)
     .delete(verifyRoles(ROLES_LIST.Admin), resourcesController.deleteResource)
-
-//router.route('/new')
     
 
 router.route('/:id')
