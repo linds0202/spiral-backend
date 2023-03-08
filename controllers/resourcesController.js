@@ -3,6 +3,7 @@ const Resource = require('../models/Resource')
 const getAllResources = async (req, res) => {
     console.log('getting the resources')
     const resources = await Resource.find()
+    console.log(`returning resources: ${resources}`)
     if (!resources) return res.status(204).json({ 'message': 'No resources found.' })
     res.json(resources)
 }

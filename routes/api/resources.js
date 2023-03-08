@@ -11,6 +11,9 @@ router.route('/')
     .put(verifyRoles(ROLES_LIST.Admin), resourcesController.updateResource)
     .delete(verifyRoles(ROLES_LIST.Admin), resourcesController.deleteResource)
 
+//router.route('/new')
+    
+
 router.route('/:id')
     .get(resourcesController.getResource)
 
