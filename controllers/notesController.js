@@ -1,4 +1,5 @@
 const Note = require('../models/Note')
+const User = require('../models/User')
 
 const getAllNotes = async (req, res) => {
     const notes = await Note.find()
@@ -11,11 +12,14 @@ const createNewNote = async (req, res) => {
         return res.status(400).json({ 'message': 'Title and text are required' })
     }
 
+    const user = await User.findById(req.body.id).exec()
+    console.log(`returning found user: ${user}`)
+
     try {
         const result = await Note.create({
+            user: user._id,
             title: req.body.title,
             text: req.body.text,
-            //user: (authContext?)
         })
 
         res.status(201).json(result)
@@ -34,9 +38,8 @@ const updateNote = async (req, res) => {
         return res.status(204).json({ "message": `No note matches ID: ${req.body.id}` });
     }
 
-    if (req.body?.title) goal.title = req.body.title;
-    if (req.body?.text) goal.text = req.body.text;
-    //assign user from auth Provider context??  goal.user: auth provider context
+    if (req.body?.title) note.title = req.body.title;
+    if (req.body?.text) note.text = req.body.text;
     
     const result = await note.save()
     

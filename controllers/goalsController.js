@@ -2,8 +2,6 @@ const Goal = require('../models/Goal')
 const User = require('../models/User')
 
 const getAllGoals = async (req, res) => {
-    console.log(`in get all goals ${req.body.id}`)
-
     const goals = await Goal.find()
 
     if (!goals) return res.status(204).json({ 'message': 'No goals found.' })
@@ -11,8 +9,6 @@ const getAllGoals = async (req, res) => {
 }
 
 const createNewGoal = async (req, res) => {
-
-    console.log(req.body)
 
     if (!req?.body?.title || !req?.body?.text) {
         return res.status(400).json({ 'message': 'Title and text are required' })
@@ -27,8 +23,6 @@ const createNewGoal = async (req, res) => {
             text: req.body.text,
         })
 
-        //console.log(`what returned ${result}`)
-
         res.status(201).json(result)
 
     } catch(err) {
@@ -40,8 +34,6 @@ const updateGoal = async (req, res) => {
     if (!req?.body?.id) return res.status(400).json({ 'message': 'An id parameter is required' })
     
     const goal = await Goal.findOne({ _id: req.body.id }).exec()
-    console.log(`found the goal to update ${goal}`)
-    
     
     if (!goal) {
         return res.status(204).json({ "message": `No goal matches ID: ${req.body.id}` });
@@ -49,7 +41,6 @@ const updateGoal = async (req, res) => {
 
     if (req.body?.title) goal.title = req.body.title;
     if (req.body?.text) goal.text = req.body.text;
-    //assign user from auth Provider context??  goal.user: auth provider context
     
     const result = await goal.save()
     

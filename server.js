@@ -53,6 +53,7 @@ app.use('/users', require('./routes/api/users'))
 //to get notes and goals
 app.use('/notes', require('./routes/api/notes'))
 app.use('/goals', require('./routes/api/goals'))
+app.use('/mGoals', require('./routes/api/mgoals'))
 
 app.all('*', (req, res) => {
     res.status(404)
