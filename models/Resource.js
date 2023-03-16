@@ -23,7 +23,10 @@ const resourceSchema = new mongoose.Schema({
         default: ['']
     },
     tutorials: {
-        type: [String],
+        type: [{
+            title: {type: String}, 
+            link: {type: String}
+        }],
         default: []
     }
 })
