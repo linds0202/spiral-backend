@@ -31,6 +31,8 @@ const createNewGoal = async (req, res) => {
 }
 
 const updateGoal = async (req, res) => {
+    console.log('in update goal')
+
     if (!req?.body?.id) return res.status(400).json({ 'message': 'An id parameter is required' })
     
     const goal = await Goal.findOne({ _id: req.body.id }).exec()
@@ -39,8 +41,11 @@ const updateGoal = async (req, res) => {
         return res.status(204).json({ "message": `No goal matches ID: ${req.body.id}` });
     }
 
+    console.log(`completed is now: ${req.body.completed}`)
+
     if (req.body?.title) goal.title = req.body.title;
     if (req.body?.text) goal.text = req.body.text;
+    if (req.body?.completed) goal.completed = req.body.completed
     
     const result = await goal.save()
     
