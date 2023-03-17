@@ -6,6 +6,23 @@ const getAllUsers = async (req, res) => {
     res.json(users)
 }
 
+const updateUser = async (req, res) => {
+
+    if (!req?.body?.id) return res.status(400).json({ 'message': 'An id parameter is required' })
+    
+    const user = await User.findOne({ _id: req.body.id }).exec()
+    
+    if (!user) {
+        return res.status(204).json({ "message": `No user matches ID: ${req.body.id}` });
+    }
+
+    if (req.body?.updateFavResources) user.favResources = req.body.updateFavResources.filter(n => n);
+    
+    const result = await user.save()
+    
+    res.json(result)
+}
+
 const deleteUser = async (req, res) => {
     if (!req?.body?.id) return res.status(400).json({ "message": 'User ID required' })
     const user = await User.findOne({ _id: req.body.id }).exec()
@@ -27,6 +44,7 @@ const getUser = async (req, res) => {
 
 module.exports = {
     getAllUsers,
+    updateUser,
     deleteUser,
     getUser
 }
