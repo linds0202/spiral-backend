@@ -2,7 +2,6 @@ const MGoal = require('../models/MGoal')
 const User = require('../models/User')
 
 const getAllMGoals = async (req, res) => {
-    console.log(`in get all monthly goals ${req.body.id}`)
 
     const mgoals = await MGoal.find()
 
@@ -19,7 +18,6 @@ const createNewMGoal = async (req, res) => {
     }
 
     const user = await User.findById(req.body.id).exec()
-    console.log(`returning found user: ${user}`)
     try {
         const result = await MGoal.create({
             user: user._id,

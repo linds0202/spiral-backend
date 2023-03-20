@@ -30,9 +30,6 @@ const handleRefreshToken = async (req, res) => {
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '10s' }
             );
-            
-            console.log(`roles : ${roles}`)
-            console.log(`favresources : ${favResources}`)
 
             res.json({ id, roles, favResources, accessToken })
         }

@@ -13,7 +13,6 @@ const createNewNote = async (req, res) => {
     }
 
     const user = await User.findById(req.body.id).exec()
-    console.log(`returning found user: ${user}`)
 
     try {
         const result = await Note.create({
