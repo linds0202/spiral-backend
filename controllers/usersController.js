@@ -17,9 +17,9 @@ const updateUser = async (req, res) => {
     }
 
     if (req.body?.updateFavResources) user.favResources = req.body.updateFavResources.filter(n => n);
-    
+
     const result = await user.save()
-    
+
     res.json(result)
 }
 
