@@ -20,6 +20,9 @@ const goalSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
+        dateCompleted: {
+            type: Date,
+        },
     },
     {
         timestamps: true
