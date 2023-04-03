@@ -10,6 +10,7 @@ const handleNewUser = async (req, res) => {
     if (duplicate) return res.sendStatus(409); //Conflict 
     
     try {
+
         //encrypt the password
         const hashedPwd = await bcrypt.hash(pwd, 10)
 
@@ -17,7 +18,7 @@ const handleNewUser = async (req, res) => {
         const result = await User.create({ 
             'username': user, 
             'email': email,
-            'password': hashedPwd 
+            'password': hashedPwd,
         })
 
         console.log(result)

@@ -9,13 +9,6 @@ const getAllResources = async (req, res) => {
 const createNewResource = async (req, res) => {
     const { name, desc, longDesc, link, tags, tutorials } = req.body
 
-    console.log(name)
-    console.log(desc)
-    console.log(longDesc)
-    console.log(link)
-    console.log(tags)
-    console.log(tutorials)
-
     if (!name || !desc || !longDesc || !link ) {
         return res.status(400).json({ 'message': 'All fields required' })
     }

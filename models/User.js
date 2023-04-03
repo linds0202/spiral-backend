@@ -16,7 +16,8 @@ const userSchema = new Schema({
             default: 2001
         },
         Enrolled: {
-            type: Number
+            type: Number,
+            default: 1984
         },
         Admin: {
             type: Number,
@@ -31,6 +32,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    cloudinaryId: {
+        type: String,
+        default: ''
+      },
+    imageUrl: {
+        type: String,
+        default: ''
+      },
     refreshToken: String
 })
 

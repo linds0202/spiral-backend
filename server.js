@@ -13,6 +13,9 @@ const mongoose = require('mongoose')
 const connectDB = require('./config/dbConn')
 const PORT = process.env.PORT || 3500
 
+//Use .env file
+require("dotenv").config({ path: "./.env" });
+
 //Connect to mongoDB
 connectDB()
 
