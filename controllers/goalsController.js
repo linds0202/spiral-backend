@@ -35,6 +35,11 @@ const updateGoal = async (req, res) => {
     if (!req?.body?.id) return res.status(400).json({ 'message': 'An id parameter is required' })
     
     const goal = await Goal.findOne({ _id: req.body.id }).exec()
+    const d = new Date()
+    const month = d.getMonth() + 1
+    const day = d.getDate()
+    const year = d.getFullYear()
+    const fullDate = `${day}/${month}/${year}`
     
     if (!goal) {
         return res.status(204).json({ "message": `No goal matches ID: ${req.body.id}` });
