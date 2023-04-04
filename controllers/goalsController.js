@@ -44,6 +44,13 @@ const updateGoal = async (req, res) => {
     if (req.body?.text) goal.text = req.body.text;
     goal.completed = req.body.completed
 
+    //add timestamp
+    if (goal.completed === true) {
+        goal.dateCompleted = fullDate
+    } else {
+        goal.dateCompleted = ''
+    }
+
     const result = await goal.save()
 
     res.json(result)
