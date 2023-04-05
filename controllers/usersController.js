@@ -25,28 +25,10 @@ const updateUser = async (req, res) => {
 }
 
 const updateUserAvatar = async (req, res) => {
-    //console.log(req.body)
     try {
         //current product
         const currentUser = await User.findById(req.params.id);
         console.log(currentUser)
-
-        const data = {
-            username: currentUser.username,
-            email: currentUser.email,
-            password: currentUser.password,
-            roles: currentUser.roles,
-            favResources: currentUser.favResources,
-            cloudinaryId: currentUser.cloudinaryId,
-            imageUrl: currentUser.imageUrl,
-            refreshToken: currentUser.refreshToken
-        }
-
-        // // Upload image to cloudinary
-        // const result = await cloudinary.uploader.upload(req.body.file);
-
-        // console.log(result)
-
 
         //modify image conditionnally
         if (currentUser.cloudinaryId !== '') {
@@ -61,18 +43,15 @@ const updateUserAvatar = async (req, res) => {
             crop: "scale"
         });
 
-        data.imageUrl = newImage.secure_url
-        data.cloudinaryId = newImage.public_id
+        currentUser.imageUrl = newImage.secure_url
+        currentUser.cloudinaryId = newImage.public_id
 
-        console.log(data)
-
-        const userUpdate = await User.findOneAndUpdate(req.params.id, data, { new: true })
-
-        console.log(userUpdate)
+        //const userUpdate = await User.findOneAndUpdate(req.params.id, data, { new: true })
+        const result = await currentUser.save()
 
         res.status(200).json({
             success: true,
-            userUpdate
+            result
         })
 
 
