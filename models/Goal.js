@@ -21,7 +21,7 @@ const goalSchema = new mongoose.Schema(
             default: false
         },
         dateCompleted: {
-            type: Date,
+            type: String,
         },
     },
     {
