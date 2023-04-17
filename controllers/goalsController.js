@@ -15,7 +15,7 @@ const createNewGoal = async (req, res) => {
     }
 
     const user = await User.findById(req.body.id).exec()
-    console.log(`returning found user: ${user}`)
+    
     try {
         const result = await Goal.create({
             user: user._id,

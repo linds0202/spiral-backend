@@ -28,7 +28,6 @@ const updateUserAvatar = async (req, res) => {
     try {
         //current product
         const currentUser = await User.findById(req.params.id);
-        console.log(currentUser)
 
         //modify image conditionnally
         if (currentUser.cloudinaryId !== '') {
@@ -46,7 +45,6 @@ const updateUserAvatar = async (req, res) => {
         currentUser.imageUrl = newImage.secure_url
         currentUser.cloudinaryId = newImage.public_id
 
-        //const userUpdate = await User.findOneAndUpdate(req.params.id, data, { new: true })
         const result = await currentUser.save()
 
         res.status(200).json({
@@ -71,8 +69,10 @@ const deleteUser = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
+       
     if (!req?.params?.id) return res.status(400).json({ "message": 'User ID required' })
     const user = await User.findOne({ _id: req.params.id }).exec()
+    
     if (!user) {
         return res.status(204).json({ 'message': `User ID ${req.params.id} not found` })
     }

@@ -11,7 +11,7 @@ router.route('/')
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser)
 
 router.route('/:id')
-    .get(verifyRoles(ROLES_LIST.Admin), usersController.getUser)
+    .get(usersController.getUser)
     .post(verifyRoles(ROLES_LIST.Admin), upload.single("file"), usersController.updateUserAvatar)
 
 module.exports = router
