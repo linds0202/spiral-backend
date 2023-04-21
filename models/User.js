@@ -16,12 +16,10 @@ const userSchema = new Schema({
             default: 2001
         },
         Enrolled: {
-            type: Number,
-            default: 1984
+            type: Number
         },
         Admin: {
-            type: Number,
-            default: 5150
+            type: Number
         }
     },
     favResources: {
