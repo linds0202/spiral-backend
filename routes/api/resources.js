@@ -5,7 +5,7 @@ const ROLES_LIST = require('../../config/roles_list')
 const verifyRoles = require('../../middleware/verifyRoles')
 
 router.route('/')
-    .get(verifyRoles(ROLES_LIST.Admin), resourcesController.getAllResources)
+    .get(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User, ROLES_LIST.Enrolled), resourcesController.getAllResources)
     .post(verifyRoles(ROLES_LIST.Admin), resourcesController.createNewResource)
     .put(verifyRoles(ROLES_LIST.Admin), resourcesController.updateResource)
     .delete(verifyRoles(ROLES_LIST.Admin), resourcesController.deleteResource)
